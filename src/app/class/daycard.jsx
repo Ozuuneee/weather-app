@@ -1,6 +1,6 @@
 import { Searchinput } from "../components/component";
 import { Card } from "../card/card";
-
+import { useState, useEffect } from "react";
 const API_KEY = "578e898bb4624211afc73330241312"
 
 export function DayCard() {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 export function Searchinput({search, onChangeText, onPressEnter}) {
   const [search, setSearch] = useState("");
 
