@@ -1,10 +1,27 @@
-export function Searchinput() {
+export function Searchinput({search, onChangeText, onPressEnter}) {
+  const [search, setSearch] = useState("");
+
+  const [setCity] = useState("");
+
+  const onChangeText = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const onPressEnter = (e) => {
+    if (e.code === "Enter") {
+      setCity(search);
+    }
+  };
   return (
     <div className="w-[580px] h-[80px] bg-[#ffffff] rounded-[48px] flex  items-center gap-[24px] z-30 text-black mr-[200px]">
       <img className="opacity-20 ml-[24px]" src="search.png" />
       <input
-        placeholder="Search city"
-        className="focus:outline-none border-none"
+        type="search"
+        placeholder="Search city..."
+        className="focus:outline-none border-none h-[60px] w-[350px]"
+        value={search}
+        onChange={onChangeText}
+        onKeyDown={onPressEnter}
       ></input>
     </div>
   );
