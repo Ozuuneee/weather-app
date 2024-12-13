@@ -1,6 +1,6 @@
 export function Searchinput() {
   return (
-    <div className="w-[520px] h-[80px] bg-[#ffffff] rounded-[48px] flex  items-center gap-[24px] z-30 text-black">
+    <div className="w-[580px] h-[80px] bg-[#ffffff] rounded-[48px] flex  items-center gap-[24px] z-30 text-black mr-[200px]">
       <img className="opacity-20 ml-[24px]" src="search.png" />
       <input
         placeholder="Search city"
