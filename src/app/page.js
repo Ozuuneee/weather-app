@@ -113,9 +113,50 @@ export default function Home() {
 }
 
 function Card({ value, city, weather, forecastDate }) {
+  const isDay = value === "day";
+  const [dayStatus, setDayStatus] = useState("/Sun.png")
+  const [nightStatus, setNightStatus] = useState("/Moon.png")
+  const weatherStatus = isDay ? dayStatus : nightStatus;
+  
+  useEffect(() => {
+    if(value==="day"){
+      if(condition.includes("Sunny")){
+        setDayStatus("/Sun.png")
+      }else if(condition.includes("Overcast")){
+        setDayStatus("/Clouds.png")
+      }else if(condition.includes("snow")){
+        setDayStatus("/Snow.png")
+      }else if(condition.includes("rain")){
+        setDayStatus("/Rain.png")
+      }else if(condition.includes("thunder")){
+        setDayStatus("/Thunder.png")
+      }else if(condition.includes("wind")){
+        setDayStatus("/Wind.png")
+      }else if(condition.includes("Mist")){
+        setDayStatus("/Clouds.png")
+      }else if(condition.includes("Cloudy")){
+        setDayStatus("/Clouds.png")
+      }
+    }else{
+      if(condition.includes("Clear")){
+        setNightStatus("/Moon.png")
+      }else if(condition.includes("Overcast")){
+        setNightStatus("/Cloudy.png")
+      }else if(condition.includes("snow")){
+        setNightStatus("/Snowy.png")
+      }else if(condition.includes("rain")){
+        setNightStatus("/Rain.png")
+      }else if(condition.includes("thunder")){
+        setNightStatus("/Thunderstorm.png")
+      }else if(condition.includes("wind")){
+        setNightStatus("/Windy.png")
+      }else if(condition.includes("Cloudy")){
+        setNightStatus("/Cloudy.png")
+      }
+    }
+  },[city, weather.condition])
   const { number, condition } = weather;
 
-  const isDay = value === "day";
   const temperatureStyle = isDay
     ? "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#6b7280] font-extrabold"
     : "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] font-extrabold";
@@ -129,8 +170,6 @@ function Card({ value, city, weather, forecastDate }) {
     "bg-[111827bf] bg-gradient-to-b from-[#1F2937] to-[#11182700] text-white shadow-[#111827]";
   const colors = isDay ? "bg-[#FFFFFF]" : nightCardColors;
 
-  const imageSrc = isDay ? "sun.png" : "moon.png";
-
   return (
     <div
       className={`w-[414px] h-[832px] rounded-[48px] flex justify-center ${cardBg} z-30 overflow-hidden`}
@@ -143,7 +182,7 @@ function Card({ value, city, weather, forecastDate }) {
           </div>
         </div>
         <div className="flex justify-center items-center mt-[30px]">
-          <img className="h-[200px] w-[200px]" src={imageSrc} alt={value} />
+          <img className="h-[200px] w-[200px]" src={weatherStatus} alt={value} />
         </div>
         <div className="flex justify-center items-center mt-[30px]">
           <p className={temperatureStyle}>{number || "--"}°</p>
