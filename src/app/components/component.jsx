@@ -1,21 +1,7 @@
-import { useState } from "react";
-export function Searchinput({search, onChangeText, onPressEnter}) {
-  const [search, setSearch] = useState("");
-
-  const [setCity] = useState("");
-
-  const onChangeText = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const onPressEnter = (e) => {
-    if (e.code === "Enter") {
-      setCity(search);
-    }
-  };
+export function Searchinput({ search, onChangeText, onPressEnter }) {
   return (
-    <div className="w-[580px] h-[80px] bg-[#ffffff] rounded-[48px] flex  items-center gap-[24px] z-30 text-black mr-[200px]">
-      <img className="opacity-20 ml-[24px]" src="search.png" />
+    <div className="w-[580px] h-[80px] bg-[#ffffff] rounded-[48px] flex items-center gap-[24px] z-30 text-black mr-[200px]">
+      <img className="opacity-20 ml-[24px]" src="search.png" alt="Search" />
       <input
         type="search"
         placeholder="Search city..."
@@ -23,10 +9,11 @@ export function Searchinput({search, onChangeText, onPressEnter}) {
         value={search}
         onChange={onChangeText}
         onKeyDown={onPressEnter}
-      ></input>
+      />
     </div>
   );
 }
+
 export function Circle({ size, top, left }) {
   return (
     <div

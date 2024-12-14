@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { CiHome, CiLocationOn, CiHeart, CiUser } from "react-icons/ci";
 
