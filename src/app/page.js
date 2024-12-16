@@ -1,14 +1,13 @@
 "use client";
+import 'typeface-manrope';
 import { useState, useEffect } from "react";
-import {
-  Circle,
-  Searchinput,
-  Square,
-  WhiteSquare,
-  MidCircle,
-  CircleGray,
-} from "./components/component";
-import { Icons } from "./icons/icons";
+import { SearchInput } from "./components/search";
+import { Circle } from "./components/circle";
+import { Square } from "./components/square";
+import { WhiteSquare } from "./components/whitesquare";
+import { MidCircle } from "./components/midcircle";
+import { CircleGray } from "./components/circlegray";
+import { Card } from "./card/card"
 
 const API_KEY = "578e898bb4624211afc73330241312";
 
@@ -35,6 +34,11 @@ export default function Home() {
     }
   };
 
+  const onPressClick = (filteredCitiesName) => {
+    setCity(filteredCitiesName);
+    setSearch("");
+  }
+
   useEffect(() => {
     if (city) {
       fetch(
@@ -53,12 +57,12 @@ export default function Home() {
           setForecastDate(formattedDate);
 
           setDayWeather({
-            number: forecastDay.day.maxtemp_c,
+            number: Math.round(forecastDay.day.maxtemp_c),
             condition: forecastDay.day.condition.text,
           });
           setNightWeather({
-            number: forecastDay.day.mintemp_c,
-            condition: forecastDay.day.condition.text,
+            number: Math.round(forecastDay.day.mintemp_c),
+            condition: forecastDay.hour[23].condition.text,
           });
         })
         .catch((error) => {
@@ -68,22 +72,23 @@ export default function Home() {
   }, [city]);
 
   return (
-    <div className="h-screen w-full flex justify-center overflow-hidden">
-      <div className="bg-stone-50 w-full h-[1200px] flex items-center flex-col-reverse justify-between pb-[200px] pt-[50px] rounded-l-[50px] text-black">
+    <div className="h-screen w-full flex justify-center overflow-hidden font-[manrope]">
+      <div className="bg-[#F3F4F6] w-full h-[1200px] flex items-center flex-col-reverse justify-between pb-[200px] pt-[50px] rounded-l-[50px] text-black">
         <Card
           value="day"
           city={city}
           weather={dayweather}
           forecastDate={forecastDate}
         />
-        <Searchinput
+        <SearchInput
           search={search}
           onChangeText={onChangeText}
           onPressEnter={onPressEnter}
+          onPressClick={onPressClick}
         />
       </div>
 
-      <div className="relative w-full h-[1200px] bg-[#0F141E] flex items-center flex-col-reverse justify-between pb-[200px]">
+      <div className="relative w-full h-[1200px] bg-[#0F141E] flex items-center flex-col-reverse justify-between pb-[200px] font-[manrope]">
         <MidCircle size={160} top={420} left={-80} />
         <Circle size={340} top={330} left={-170} />
         <CircleGray size={340} top={330} left={-170} />
@@ -112,88 +117,3 @@ export default function Home() {
   );
 }
 
-function Card({ value, city, weather, forecastDate }) {
-  const isDay = value === "day";
-  const [dayStatus, setDayStatus] = useState("/Sun.png")
-  const [nightStatus, setNightStatus] = useState("/Moon.png")
-  const weatherStatus = isDay ? dayStatus : nightStatus;
-  
-  useEffect(() => {
-    if(value==="day"){
-      if(condition.includes("Sunny")){
-        setDayStatus("/Sun.png")
-      }else if(condition.includes("Overcast")){
-        setDayStatus("/Clouds.png")
-      }else if(condition.includes("snow")){
-        setDayStatus("/Snow.png")
-      }else if(condition.includes("rain")){
-        setDayStatus("/Rain.png")
-      }else if(condition.includes("thunder")){
-        setDayStatus("/Thunder.png")
-      }else if(condition.includes("wind")){
-        setDayStatus("/Wind.png")
-      }else if(condition.includes("Mist")){
-        setDayStatus("/Clouds.png")
-      }else if(condition.includes("Cloudy")){
-        setDayStatus("/Clouds.png")
-      }
-    }else{
-      if(condition.includes("Clear")){
-        setNightStatus("/Moon.png")
-      }else if(condition.includes("Overcast")){
-        setNightStatus("/Cloudy.png")
-      }else if(condition.includes("snow")){
-        setNightStatus("/Snowy.png")
-      }else if(condition.includes("rain")){
-        setNightStatus("/Rain.png")
-      }else if(condition.includes("thunder")){
-        setNightStatus("/Thunderstorm.png")
-      }else if(condition.includes("wind")){
-        setNightStatus("/Windy.png")
-      }else if(condition.includes("Cloudy")){
-        setNightStatus("/Cloudy.png")
-      }
-    }
-  },[city, weather.condition])
-  const { number, condition } = weather;
-
-  const temperatureStyle = isDay
-    ? "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#6b7280] font-extrabold"
-    : "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] font-extrabold";
-
-  const conditionStyle = isDay
-    ? "text-[#FF8E27] font-bold text-[24px]"
-    : "text-[#777CCE] font-bold text-[24px]";
-
-  const cardBg = isDay ? "bg-[#FFFFFFbf]" : "bg-[#111827BF]";
-  const nightCardColors =
-    "bg-[111827bf] bg-gradient-to-b from-[#1F2937] to-[#11182700] text-white shadow-[#111827]";
-  const colors = isDay ? "bg-[#FFFFFF]" : nightCardColors;
-
-  return (
-    <div
-      className={`w-[414px] h-[832px] rounded-[48px] flex justify-center ${cardBg} z-30 overflow-hidden`}
-    >
-      <div className={`w-[398px] h-[504px] rounded-[42px] mt-[10px] ${colors}`}>
-        <div className="flex justify-center">
-          <div className="w-[290px] mt-[64px] ml-[48px]">
-            <p className="text-md">{forecastDate || "Date Unavailable"}</p>
-            <h2 className="text-4xl font-bold">{city || "Unknown"}</h2>
-          </div>
-        </div>
-        <div className="flex justify-center items-center mt-[30px]">
-          <img className="h-[200px] w-[200px]" src={weatherStatus} alt={value} />
-        </div>
-        <div className="flex justify-center items-center mt-[30px]">
-          <p className={temperatureStyle}>{number || "--"}°</p>
-        </div>
-        <div className="mt-[30px] ml-[50px]">
-          <p className={conditionStyle}>{condition || "No Data"}</p>
-        </div>
-        <div className="flex justify-center items-center mt-36 gap-20">
-          <Icons value={value} />
-        </div>
-      </div>
-    </div>
-  );
-}

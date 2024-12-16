@@ -21,7 +21,7 @@ export const Icons = ({ value }) => {
   const hoverColor = value === "day" ? "hover:text-black" : "hover:text-white";
 
   return (
-    <div className="flex space-x-16 text-3xl text-[#D1D5DB]">
+    <div className="flex space-x-16 text-3xl text-[#D1D5DBbf]">
       {iconsToDisplay.map((item, index) => (
         <item.Icon
           key={index}
