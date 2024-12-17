@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { FiMapPin } from "react-icons/fi";
 import debounce from "lodash/debounce";
 
 export function SearchInput({ search, onChangeText, onPressEnter, onPressClick }) {
@@ -74,7 +73,7 @@ export function SearchInput({ search, onChangeText, onPressEnter, onPressClick }
                 key={index}
                 onClick={() => handleCityClick(cityObj.city)}
               >
-                <img src="vector.png" className="opacity-20 w-[23.33px] h-[33.33px]"/>
+                <img src="ping.png" className="opacity-20 w-[23.33px] h-[33.33px]"/>
                 {cityObj.city}
               </div>
             );
