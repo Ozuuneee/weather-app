@@ -77,7 +77,7 @@ export function Card({ value, city, weather, forecastDate }) {
           <div className="flex justify-center items-center mt-[40px]">
             <img className="h-[250px] w-[250px] drop-shadow-[0_5px_25px_rgba(255,255,255,0.5)]" src={weatherStatus} alt={value} />
           </div>
-          <div className="flex justify-center items-center mr-[180px] mt-[30px] font-bold">
+          <div className="flex justify-center items-center mr-[155px] mt-[30px] font-bold">
             <p className={temperatureStyle}>{number || "0"}°</p>
           </div>
           <div className=" ml-[45px] h-[72px]">
