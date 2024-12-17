@@ -1,3 +1,5 @@
+"use client"
+
 import { Icons } from "./icons"
 import { useState, useEffect } from "react"
 
@@ -47,8 +49,8 @@ export function Card({ value, city, weather, forecastDate }) {
       },[city, condition])
   
     const temperatureStyle = isDay
-      ? "text-[144px] text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#6b7280] font-extrabold"
-      : "text-[144px] text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] font-extrabold";
+      ? "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#111827] to-[#6b7280] font-extrabold"
+      : "text-[96px] text-transparent bg-clip-text bg-gradient-to-b from-[#F9FAFB] to-[#F9FAFB00] font-extrabold";
   
     const conditionStyle = isDay
       ? "text-[#FF8E27] font-bold text-[24px]"
@@ -68,19 +70,20 @@ export function Card({ value, city, weather, forecastDate }) {
           <div className="flex justify-center">
             <div className="w-[290px] mt-[64px]">
               <p className={`text-md ${textColor}`}>{forecastDate || "Date Unavailable"}</p>
-              <h2 className="text-5xl font-extrabold mt-2">{city || "Unknown"}</h2>
+              <h2 className="text-5xl font-extrabold mt-2 h-24">{city || "Unknown"}</h2>
             </div>
+            <div><img src="localization.png" className="mt-[74px]" /></div>
           </div>
-          <div className="flex justify-center items-center mt-[30px]">
-            <img className="h-[240px] w-[240px] drop-shadow-[0_5px_25px_rgba(255,255,255,0.5)]" src={weatherStatus} alt={value} />
+          <div className="flex justify-center items-center mt-[40px]">
+            <img className="h-[250px] w-[250px] drop-shadow-[0_5px_25px_rgba(255,255,255,0.5)]" src={weatherStatus} alt={value} />
           </div>
-          <div className="flex justify-center items-center mr-28 mt-[30px] font-bold">
+          <div className="flex justify-center items-center mr-[180px] mt-[30px] font-bold">
             <p className={temperatureStyle}>{number || "0"}°</p>
           </div>
-          <div className="mt-[10px] ml-[50px] h-[72px]">
+          <div className=" ml-[45px] h-[72px]">
             <p className={conditionStyle}>{condition || "No Data"}</p>
           </div>
-          <div className="flex justify-center items-center mt-[40px] gap-20">
+          <div className="flex justify-center items-center gap-20 mt-8">
             <Icons value={value} />
           </div>
         </div>

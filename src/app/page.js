@@ -28,10 +28,9 @@ export default function Home() {
     setSearch(e.target.value);
   };
 
-  const onPressEnter = (e) => {
-    if (e.code === "Enter" && search.trim()) {
-      setCity(search);
-    }
+  const handlePressEnter = () => {
+      setCity(search.trim());
+   
   };
 
   const onPressClick = (filteredCitiesName) => {
@@ -48,7 +47,7 @@ export default function Home() {
         .then((data) => {
           const forecastDay = data.forecast?.forecastday[0];
 
-          const date = new Date(forecastDay.date);
+          const date = new Date(forecastDay?.date);
           const formattedDate = date.toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
@@ -83,12 +82,13 @@ export default function Home() {
         <SearchInput
           search={search}
           onChangeText={onChangeText}
-          onPressEnter={onPressEnter}
+          onPressEnter={handlePressEnter}
           onPressClick={onPressClick}
         />
       </div>
 
-      <div className="relative w-full h-[1200px] bg-[#0F141E] flex items-center flex-col-reverse justify-between pb-[200px] font-[manrope]">
+      <div className="relative w-full h-[1200px] bg-[#0F141E] flex items-center flex-col-reverse pb-[200px] justify-between  font-[manrope]">
+
         <MidCircle size={160} top={420} left={-80} />
         <Circle size={340} top={330} left={-170} />
         <CircleGray size={340} top={330} left={-170} />
@@ -106,6 +106,8 @@ export default function Home() {
           weather={nightweather}
           forecastDate={forecastDate}
         />
+        <img src="ellipse.png" className="absolute max-w-32 right-0 left-[690px] bottom-[150px]" />
+        <img src="ellipseYellow.png" className="absolute max-w-44 right-[1790px] z-20 top-28"/>
         <Square size={100} top={326} left={-0} />
         <Square size={100} top={574} left={-0} />
         <WhiteSquare size={40} top={390} left={-12} />

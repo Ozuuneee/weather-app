@@ -8,6 +8,8 @@ export function Circle({ size, top, left }) {
           left: `${left}px`,
         }}
         className="border rounded-full border-[#ffffff] border-opacity-[8%] absolute z-20"
-      ></div>
+      >
+      </div>
+      
     );
   }
