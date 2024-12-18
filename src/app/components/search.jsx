@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
@@ -10,7 +10,7 @@ export function SearchInput({ search, onChangeText, onPressEnter, onPressClick }
 
   const debouncedOnChange = debounce((value) => {
     setDebouncedSearch(value);
-  }, 500);
+  }, 300);
 
   const handleChange = (e) => {
     onChangeText(e);
@@ -25,8 +25,7 @@ export function SearchInput({ search, onChangeText, onPressEnter, onPressClick }
   };
 
   const handleKeyDown = (e) => {
-
-    if (e.code === 'Enter') {
+    if (e.code === "Enter") {
       setIsSuggestionsVisible(false);
       onPressEnter && onPressEnter();
     }
@@ -51,33 +50,54 @@ export function SearchInput({ search, onChangeText, onPressEnter, onPressClick }
 
   const filteredCitiesName = cities
     .filter((obj) => obj.city.toLowerCase().includes(debouncedSearch.toLowerCase()))
-    .slice(0, 10);
+    .sort((a, b) => a.city.localeCompare(b.city))
+    .slice(0, 5); 
+
+  const highlightMatch = (text, query) => {
+    const index = text.toLowerCase().indexOf(query.toLowerCase());
+    if (index === -1) return text;
+
+    const beforeMatch = text.slice(0, index);
+    const match = text.slice(index, index + query.length);
+    const afterMatch = text.slice(index + query.length);
+
+    return (
+      <>
+        {beforeMatch}
+        <span className="font-bold">{match}</span>
+        {afterMatch}
+      </>
+    );
+  };
 
   return (
-    <div className="w-[580px] h-[80px] bg-[#ffffff] rounded-[48px] flex items-center gap-[24px] text-black mr-[200px] z-50">
-      <img className="opacity-50 ml-[24px]" src="search.png" alt="Search" />
-      <input
-        type="search"
-        placeholder="Search city..."
-        className="focus:outline-none border-none h-[60px] w-[350px]"
-        value={search}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
+    <div className="relative w-[580px] z-50 mr-28 ">
+      <div className="w-full h-[80px] bg-white rounded-[48px] flex items-center gap-4 px-6 shadow-lg">
+        <img className="opacity-50" src="search.png" alt="Search" />
+        <input
+          type="search"
+          placeholder="Search city..."
+          className="focus:outline-none border-none h-[60px] w-full text-lg"
+          value={search}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
+
       {debouncedSearch && isSuggestionsVisible && (
-        <div className="w-[580px] max-h-[200px] bg-[#ffffff] absolute top-[100px] rounded-3xl overflow-y-scroll px-[20px] py-2 mt-10 z-50 drop-shadow-2xl">
-          {filteredCitiesName.map((cityObj, index) => {
-            return (
-              <div
-                className="text-black text-[28px] flex items-center gap-3 z-50 cursor-pointer drop-shadow-2xl font-bold mt-[5px]"
-                key={index}
-                onClick={() => handleCityClick(cityObj.city)}
-              >
-                <img src="ping.png" className="opacity-20 w-[23.33px] h-[33.33px]"/>
-                {cityObj.city}
-              </div>
-            );
-          })}
+        <div className="absolute w-full bg-white mt-2 rounded-3xl shadow-2xl overflow-y-auto max-h-[225px] z-50">
+          {filteredCitiesName.map((cityObj, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 px-6 py-3 cursor-pointer hover:bg-gray-100"
+              onClick={() => handleCityClick(cityObj.city)}
+            >
+              <img src="ping.png" alt="Location" className="opacity-30 w-6 h-8" />
+              <span className="text-lg text-black font-medium">
+                {highlightMatch(cityObj.city, debouncedSearch)}, {cityObj.country}
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </div>
